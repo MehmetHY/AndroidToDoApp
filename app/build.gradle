@@ -10,7 +10,7 @@ android {
     defaultConfig {
         applicationId "mehmethy.todo"
         minSdk 19
-        targetSdk 31
+        targetSdk 19
         versionCode 1
         versionName "1.0"
 

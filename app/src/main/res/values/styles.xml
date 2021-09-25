@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="button" parent="@style/Theme.Todo">
+    </style>
+    <style name="button.darkgrey">
+        <item name="buttonTint">@color/grey_2e</item>
+    </style>
+</resources>

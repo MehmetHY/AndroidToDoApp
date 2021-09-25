@@ -5,11 +5,11 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import mehmethy.todo.widget.TodoWidget
-import mehmethy.todo.widget.activeTodoWidget
 
 class TodoActivity : AppCompatActivity() {
     private val todoContainer: LinearLayout by lazy(LazyThreadSafetyMode.NONE) { findViewById(R.id.todoContainer) }
     private val todoList: MutableList<TodoWidget> = mutableListOf()
+    private val todoManager = TodoManager()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,8 +17,8 @@ class TodoActivity : AppCompatActivity() {
 
         val addButton = findViewById<Button>(R.id.addButton)
         addButton.setOnClickListener {
-            val widget = TodoWidget(this, todoContainer)
-            activeTodoWidget = widget
+            val widget = TodoWidget(this, todoContainer, todoManager)
+            widget.activate()
             todoList.add(widget)
         }
     }

@@ -1,7 +1,6 @@
 package mehmethy.todo.widget
 
 import android.content.Context
-import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import androidx.appcompat.content.res.AppCompatResources
 import mehmethy.todo.TodoManager
 
 
-class TodoWidget(private val context: Context, parent: LinearLayout, val todoManager: TodoManager) {
+class TodoWidget(private val context: Context, parent: LinearLayout, private val todoManager: TodoManager) {
     private val bg: LinearLayout
     private val stateButton: ImageButton
     private var todoState = TodoState.IN_PROGRESS
@@ -23,9 +22,9 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         val noteButton = buildNoteButton()
         val titleButton = buildTitleButton()
 
-        bg?.addView(stateButton)
-        bg?.addView(noteButton)
-        bg?.addView(titleButton)
+        bg.addView(stateButton)
+        bg.addView(noteButton)
+        bg.addView(titleButton)
         parent.addView(bg)
     }
 
@@ -33,13 +32,13 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         if (todoManager.activeTodoWidget == this) {
             return
         }
-        bg?.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.highlight_color))
+        bg.isSelected = true
         todoManager.activeTodoWidget?.deactivate()
         todoManager.activeTodoWidget = this
     }
 
-    fun deactivate() {
-        bg?.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.todo_bg_color))
+    private fun deactivate() {
+        bg.isSelected = false
         todoManager.activeTodoWidget = null
     }
 
@@ -71,7 +70,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         params.setMargins(16, 4, 16, 4)
         val layout = LinearLayout(context)
         layout.layoutParams = params
-        layout.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.black))
+        layout.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_bg)
         layout.setPadding(8, 8, 8, 8)
         return layout
     }
@@ -84,7 +83,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         val id = mehmethy.todo.R.drawable.progress_icon
         val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
         button.setImageDrawable(drawable)
-        button.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.grey_3e))
+        button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.setPadding(16, 16, 16, 16)
         button.setOnClickListener {
             activate()
@@ -101,7 +100,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         val id = mehmethy.todo.R.drawable.note_icon
         val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
         button.setImageDrawable(drawable)
-        button.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.grey_3e))
+        button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.setPadding(16, 16, 16, 16)
         button.setOnClickListener { activate() }
         return button
@@ -113,8 +112,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, val todoMan
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.weight = 1.0f
         button.layoutParams = params
-        button.background = ColorDrawable(context.resources.getColor(mehmethy.todo.R.color.grey_3e))
-        button.setTextColor(context.resources.getColor(mehmethy.todo.R.color.white))
+        button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.textAlignment = View.TEXT_ALIGNMENT_CENTER
         button.setOnClickListener { activate() }
         return button

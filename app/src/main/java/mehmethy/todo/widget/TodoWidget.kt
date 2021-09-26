@@ -33,6 +33,8 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         parent.addView(bg)
     }
 
+    fun getView(): LinearLayout = bg
+
     fun getTitleText() = titleButton.text.toString()
     private fun getDescriptionText() = description
 

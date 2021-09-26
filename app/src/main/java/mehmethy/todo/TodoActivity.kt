@@ -26,6 +26,7 @@ class TodoActivity : AppCompatActivity() {
 
         val deleteButton = findViewById<Button>(R.id.deleteButton)
         deleteButton.setOnClickListener {
+            todoContainer.removeView(todoManager.activeTodoWidget?.getView())
         }
     }
 }

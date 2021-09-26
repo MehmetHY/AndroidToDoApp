@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Todo</string>
+    <string name="todo_default_title">title</string>
+    <string name="todo_title_label">Title</string>
+    <string name="todo_title_hint">type title..</string>
+    <string name="todo_description_label">Description</string>
+    <string name="todo_description_hint">type description..</string>
+    <string name="todo_button_confirm">Ok</string>
+    <string name="todo_button_cancel">Cancel</string>
+    <string name="todo_edit_title">Todo Edit</string>
 </resources>

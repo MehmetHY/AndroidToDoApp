@@ -108,7 +108,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
 
     private fun buildTitleButton(): Button {
         val button = Button(context)
-        button.text = "Title"
+        button.text = context.getString(mehmethy.todo.R.string.todo_title_label)
         val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
         params.weight = 1.0f
         button.layoutParams = params

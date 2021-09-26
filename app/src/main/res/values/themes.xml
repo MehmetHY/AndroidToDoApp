@@ -3,6 +3,8 @@
         <item name="android:background">@color/todo_background</item>
         <item name="android:buttonStyle">@style/TodoCommon.WidgetButton</item>
         <item name="buttonStyle">@style/TodoCommon.WidgetButton</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="actionBarStyle">@null</item>
     </style>
     <style name="TodoCommon.UIButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/todo_ui_button</item>
@@ -10,5 +12,9 @@
     </style>
     <style name="TodoCommon.WidgetButton" parent="TodoCommon.UIButton">
         <item name="android:background">@drawable/todo_widget_button</item>
+    </style>
+    <style name="TodoCommon.Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">@drawable/todo_ui_bg</item>
+        <item name="actionBarSize">0dp</item>
     </style>
 </resources>

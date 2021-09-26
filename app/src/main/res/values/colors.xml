@@ -20,7 +20,7 @@
     <color name="todo_secondary">#4f4f4f</color>
     <color name="todo_secondary_alt">#5f5f5f</color>
     <color name="todo_secondary_cont">#f1f1f1</color>
-    <color name="todo_surface">#6f6f6f</color>
+    <color name="todo_surface">#282828</color>
     <color name="todo_surface_cont">#ffffff</color>
     <color name="todo_background">#2e2e2e</color>
     <color name="todo_highlight">#ff9090</color>

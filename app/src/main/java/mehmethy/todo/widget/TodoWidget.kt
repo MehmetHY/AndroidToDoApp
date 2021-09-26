@@ -9,23 +9,38 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import mehmethy.todo.TodoManager
+import mehmethy.todo.dialogs.TodoEditDialog
 
 
 class TodoWidget(private val context: Context, parent: LinearLayout, private val todoManager: TodoManager) {
     private val bg: LinearLayout
     private val stateButton: ImageButton
     private var todoState = TodoState.IN_PROGRESS
+    private val titleButton: Button
+    private val descriptionButton: ImageButton
+    private var description = ""
 
     init {
         bg = buildContainer()
         stateButton = buildStateButton()
-        val noteButton = buildNoteButton()
-        val titleButton = buildTitleButton()
+        descriptionButton = buildNoteButton()
+        titleButton = buildTitleButton()
 
         bg.addView(stateButton)
-        bg.addView(noteButton)
+        bg.addView(descriptionButton)
         bg.addView(titleButton)
         parent.addView(bg)
+    }
+
+    fun getTitleText() = titleButton?.text.toString()
+    fun getDescriptionText() = description
+
+    fun handleEditConfirm(title: String, _description: String) {
+        if (title.isNullOrBlank()) {
+            return
+        }
+        titleButton.text = title
+        description = _description
     }
 
     fun activate() {
@@ -115,6 +130,10 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.textAlignment = View.TEXT_ALIGNMENT_CENTER
         button.setOnClickListener { activate() }
+        button.setOnLongClickListener {
+            TodoEditDialog(context, ::handleEditConfirm, getTitleText(), getDescriptionText()).show()
+            true
+        }
         return button
     }
 }

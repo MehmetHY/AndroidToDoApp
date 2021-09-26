@@ -17,18 +17,16 @@ class TodoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_todo)
 
-        val root: ConstraintLayout = findViewById(R.id.root)
-
         val addButton = findViewById<Button>(R.id.addButton)
         addButton.setOnClickListener {
             val widget = TodoWidget(this, todoContainer, todoManager)
             widget.activate()
             todoList.add(widget)
+            TodoEditDialog(this, widget::handleEditConfirm, widget.getTitleText()).show()
         }
 
         val deleteButton = findViewById<Button>(R.id.deleteButton)
         deleteButton.setOnClickListener {
-            TodoEditDialog(this).show()
         }
     }
 }

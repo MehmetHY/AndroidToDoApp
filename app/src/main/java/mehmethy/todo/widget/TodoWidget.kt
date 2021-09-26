@@ -9,6 +9,7 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import mehmethy.todo.TodoManager
+import mehmethy.todo.dialogs.TodoDescriptionDialog
 import mehmethy.todo.dialogs.TodoEditDialog
 
 
@@ -32,11 +33,11 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         parent.addView(bg)
     }
 
-    fun getTitleText() = titleButton?.text.toString()
-    fun getDescriptionText() = description
+    fun getTitleText() = titleButton.text.toString()
+    private fun getDescriptionText() = description
 
     fun handleEditConfirm(title: String, _description: String) {
-        if (title.isNullOrBlank()) {
+        if (title.isBlank()) {
             return
         }
         titleButton.text = title
@@ -117,7 +118,10 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         button.setImageDrawable(drawable)
         button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.setPadding(16, 16, 16, 16)
-        button.setOnClickListener { activate() }
+        button.setOnClickListener {
+            activate()
+            TodoDescriptionDialog(context, titleButton.text.toString(), getDescriptionText()).show()
+        }
         return button
     }
 

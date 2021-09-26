@@ -19,22 +19,22 @@ class TodoEditDialog(
         requestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(mehmethy.todo.R.layout.dialog_todo_edit)
 
-        val title_input: EditText? = findViewById(mehmethy.todo.R.id.todo_edit_title_input)
-        title_input?.setText(initTitle)
-        title_input?.setOnFocusChangeListener { view, b -> title_input?.selectAll() }
+        val titleInput: EditText = findViewById(mehmethy.todo.R.id.todo_edit_title_input)!!
+        titleInput.setText(initTitle)
+        titleInput.setOnFocusChangeListener { _, _ -> titleInput.selectAll() }
 
-        val description_input: EditText? =
+        val descriptionInput: EditText? =
             findViewById(mehmethy.todo.R.id.todo_edit_description_input)
-        description_input?.setText(initDescription)
+        descriptionInput?.setText(initDescription)
 
         val okButton: Button? = findViewById(mehmethy.todo.R.id.todo_edit_ok_button)
         okButton?.setOnClickListener {
-            confirmCallback(title_input?.text.toString(), description_input?.text.toString())
+            confirmCallback(titleInput.text.toString(), descriptionInput?.text.toString())
             this.hide()
         }
 
         setOnShowListener {
-            title_input?.requestFocus()
+            titleInput.requestFocus()
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import mehmethy.todo.dialogs.TodoEditDialog
 import mehmethy.todo.widget.TodoWidget
 

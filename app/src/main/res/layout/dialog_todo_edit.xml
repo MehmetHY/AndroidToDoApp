@@ -31,7 +31,7 @@
             android:scrollHorizontally="false"
             android:selectAllOnFocus="false"
             android:singleLine="false"
-            android:textAlignment="viewStart"
+            android:textAlignment="gravity"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:theme="@style/TodoCommon.Dialog"

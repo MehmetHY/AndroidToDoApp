@@ -8,4 +8,5 @@
     <string name="todo_button_confirm">Ok</string>
     <string name="todo_button_cancel">Cancel</string>
     <string name="todo_edit_title">Todo Edit</string>
+    <string name="todo_button_close">Close</string>
 </resources>

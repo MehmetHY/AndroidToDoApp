@@ -19,7 +19,7 @@ class TodoDescriptionDialog(context: Context, private val title: String = "", pr
 
         val closeButton: Button? = findViewById(mehmethy.todo.R.id.todo_description_close)
         closeButton?.setOnClickListener {
-            this.hide()
+            this.dismiss()
         }
     }
 }

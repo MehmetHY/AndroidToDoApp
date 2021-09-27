@@ -9,4 +9,11 @@
     <string name="todo_button_cancel">Cancel</string>
     <string name="todo_edit_title">Todo Edit</string>
     <string name="todo_button_close">Close</string>
+    <string name="todo_button_load">Load</string>
+    <string name="todo_button_new">New</string>
+    <string name="todo_button_rename">Rename</string>
+    <string name="todo_button_delete">Delete</string>
+    <string name="todo_button_quit">Quit</string>
+    <string name="todo_group_label">Todo Group Name</string>
+    <string name="todo_group_name_hint">type name..</string>
 </resources>

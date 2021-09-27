@@ -30,7 +30,12 @@ class TodoEditDialog(
         val okButton: Button? = findViewById(mehmethy.todo.R.id.todo_edit_ok_button)
         okButton?.setOnClickListener {
             confirmCallback(titleInput.text.toString(), descriptionInput?.text.toString())
-            this.hide()
+            this.dismiss()
+        }
+
+        val cancelButton: Button? = findViewById(mehmethy.todo.R.id.todo_edit_cancel_button)
+        cancelButton?.setOnClickListener {
+            this.cancel()
         }
 
         setOnShowListener {

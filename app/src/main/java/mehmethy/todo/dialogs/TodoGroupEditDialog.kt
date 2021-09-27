@@ -10,11 +10,18 @@ class TodoGroupEditDialog(context: Context, private val confirmCallback: (String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(mehmethy.todo.R.layout.dialog_todo_group_edit)
+
         val inputText: EditText? = findViewById(mehmethy.todo.R.id.todoGroupNameInput)
+
         val okButton: Button? = findViewById(mehmethy.todo.R.id.todoGroupConfirmButton)
         okButton?.setOnClickListener {
             confirmCallback(inputText?.text.toString())
             this.dismiss()
+        }
+
+        val cancelButton: Button? = findViewById(mehmethy.todo.R.id.todoGroupCancelButton)
+        cancelButton?.setOnClickListener {
+            this.cancel()
         }
     }
 }

@@ -9,4 +9,6 @@ class TodoManager {
         set(value) {
             _activeTodoWidget = value
         }
+
+    var activeTodoGroup: TodoGroup? = null
 }

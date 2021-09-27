@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val todoGroupList: LinearLayout? = findViewById(R.id.todo_main_menu_list)
+        val todoManager = TodoManager()
 
         val loadButton = findViewById<Button>(R.id.todo_main_menu_load)
         loadButton.setOnClickListener {
@@ -21,8 +22,15 @@ class MainActivity : AppCompatActivity() {
 
         val newButton: Button? = findViewById(R.id.todo_main_menu_new)
         newButton?.setOnClickListener {
-            val button = TodoGroup(this, "test")
+            val button = TodoGroup(this, todoManager, "test")
             todoGroupList?.addView(button.getView())
+        }
+
+        val deleteButton: Button? = findViewById(R.id.todo_main_menu_delete)
+        deleteButton?.setOnClickListener {
+            if (todoManager.activeTodoGroup != null) {
+                todoGroupList?.removeView(todoManager.activeTodoGroup?.getView())
+            }
         }
     }
 }

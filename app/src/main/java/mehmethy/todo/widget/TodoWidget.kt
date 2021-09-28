@@ -19,7 +19,7 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     private var todoState = TodoState.IN_PROGRESS
     private val titleButton: Button
     private val descriptionButton: ImageButton
-    private var description = ""
+    var description = ""
 
     init {
         bg = buildContainer()
@@ -37,6 +37,33 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
 
     fun getTitleText() = titleButton.text.toString()
     private fun getDescriptionText() = description
+
+    fun setTitle(text: String) {
+        titleButton.text = text
+    }
+
+    fun setState(state: TodoState) {
+        when (state) {
+            TodoState.IN_PROGRESS -> {
+                val id = mehmethy.todo.R.drawable.progress_icon
+                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
+                stateButton.setImageDrawable(drawable)
+                todoState = TodoState.IN_PROGRESS
+            }
+            TodoState.COMPLETED -> {
+                val id = mehmethy.todo.R.drawable.completed_icon
+                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
+                stateButton.setImageDrawable(drawable)
+                todoState = TodoState.COMPLETED
+            }
+            TodoState.NOT_STARTED -> {
+                val id = mehmethy.todo.R.drawable.not_started_icon
+                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
+                stateButton.setImageDrawable(drawable)
+                todoState = TodoState.NOT_STARTED
+            }
+        }
+    }
 
     fun handleEditConfirm(title: String, _description: String) {
         if (title.isBlank()) {
@@ -63,22 +90,13 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     private fun changeState() {
         when (todoState) {
             TodoState.IN_PROGRESS -> {
-                val id = mehmethy.todo.R.drawable.completed_icon
-                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
-                stateButton.setImageDrawable(drawable)
-                todoState = TodoState.COMPLETED
+                setState(TodoState.COMPLETED)
             }
             TodoState.COMPLETED -> {
-                val id = mehmethy.todo.R.drawable.not_started_icon
-                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
-                stateButton.setImageDrawable(drawable)
-                todoState = TodoState.NOT_STARTED
+                setState(TodoState.NOT_STARTED)
             }
             TodoState.NOT_STARTED -> {
-                val id = mehmethy.todo.R.drawable.progress_icon
-                val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
-                stateButton.setImageDrawable(drawable)
-                todoState = TodoState.IN_PROGRESS
+                setState(TodoState.IN_PROGRESS)
             }
         }
     }

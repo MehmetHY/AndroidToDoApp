@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import mehmethy.todo.dialogs.TodoEditDialog
+import mehmethy.todo.widget.TodoState
 import mehmethy.todo.widget.TodoWidget
 
 class TodoActivity : AppCompatActivity() {
@@ -15,6 +16,14 @@ class TodoActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_todo)
+
+        for (recipe in TodoManager.activeRecipeList!!) {
+            val widget = TodoWidget(this, todoContainer, todoManager)
+            widget.setTitle(recipe.title)
+            widget.description = recipe.description
+            widget.setState(recipe.state)
+            todoList.add(widget)
+        }
 
         val addButton = findViewById<Button>(R.id.addButton)
         addButton.setOnClickListener {

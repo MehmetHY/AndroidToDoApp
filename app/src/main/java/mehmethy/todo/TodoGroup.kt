@@ -1,13 +1,16 @@
 package mehmethy.todo
 
+import android.content.ContentValues
 import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
+import mehmethy.todo.data.DataBaseHelper
+import mehmethy.todo.data.DataBaseInfo
 import mehmethy.todo.dialogs.TodoGroupEditDialog
 
-class TodoGroup(context: Context, private val todoManager: TodoManager, private var title: String = "", val todoList: MutableList<TodoRecipe> = mutableListOf()) {
+class TodoGroup(private val context: Context, private val todoManager: TodoManager, private val id: Long, private var title: String = "", val todoRecipeList: MutableList<TodoRecipe> = mutableListOf()) {
     private val view: TextView
 
     init {
@@ -30,7 +33,6 @@ class TodoGroup(context: Context, private val todoManager: TodoManager, private 
             true
         }
         activate()
-        TodoGroupEditDialog(context, this::handleTodoEditDialog).show()
     }
 
     fun handleTodoEditDialog(text: String) {
@@ -39,6 +41,11 @@ class TodoGroup(context: Context, private val todoManager: TodoManager, private 
         }
         title = text
         view.text = title
+        val dataBaseHelper = DataBaseHelper(context)
+        val db = dataBaseHelper.writableDatabase
+        val cv = ContentValues()
+        cv.put(DataBaseInfo.TODO_GROUP_COLUMN_TITLE_NAME, title)
+        db.update(DataBaseInfo.TODO_GROUP_TABLE_NAME, cv, "${DataBaseInfo.TODO_GROUP_COLUMN_TITLE_NAME} = $id", null)
     }
 
     private fun activate() {

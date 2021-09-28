@@ -37,12 +37,16 @@ class MainActivity : AppCompatActivity() {
             val id = db.insert(DataBaseInfo.TODO_GROUP_TABLE_NAME, null, cv)
             val newTodoGroup = TodoGroup(this, todoManager, id)
             todoGroupList?.addView(newTodoGroup.getView())
-            TodoGroupEditDialog(this, newTodoGroup::handleTodoEditDialog)
+            TodoGroupEditDialog(this, newTodoGroup::handleTodoEditDialog).show()
         }
 
         val deleteButton: Button? = findViewById(R.id.todo_main_menu_delete)
         deleteButton?.setOnClickListener {
             if (todoManager.activeTodoGroup != null) {
+                val dataBaseHelper = DataBaseHelper(this)
+                val db = dataBaseHelper.writableDatabase
+                db.delete(DataBaseInfo.TODO_TABLE_NAME, "${DataBaseInfo.TODO_COLUMN_GROUP_ID_NAME} = ${todoManager.activeTodoGroup?.getId()}", null)
+                db.delete(DataBaseInfo.TODO_GROUP_TABLE_NAME, "${DataBaseInfo.TODO_GROUP_COLUMN_ID_NAME} = ${todoManager.activeTodoGroup?.getId()}", null)
                 todoGroupList?.removeView(todoManager.activeTodoGroup?.getView())
             }
         }

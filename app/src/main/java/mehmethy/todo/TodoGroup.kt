@@ -29,7 +29,7 @@ class TodoGroup(private val context: Context, private val todoManager: TodoManag
         }
         view.setOnLongClickListener {
             activate()
-            TodoGroupEditDialog(context, this::handleTodoEditDialog).show()
+            TodoGroupEditDialog(context, this::handleTodoEditDialog, title).show()
             true
         }
         activate()
@@ -45,7 +45,7 @@ class TodoGroup(private val context: Context, private val todoManager: TodoManag
         val db = dataBaseHelper.writableDatabase
         val cv = ContentValues()
         cv.put(DataBaseInfo.TODO_GROUP_COLUMN_TITLE_NAME, title)
-        db.update(DataBaseInfo.TODO_GROUP_TABLE_NAME, cv, "${DataBaseInfo.TODO_GROUP_COLUMN_TITLE_NAME} = $id", null)
+        db.update(DataBaseInfo.TODO_GROUP_TABLE_NAME, cv, "${DataBaseInfo.TODO_GROUP_COLUMN_ID_NAME} = $id", null)
     }
 
     private fun activate() {
@@ -61,6 +61,10 @@ class TodoGroup(private val context: Context, private val todoManager: TodoManag
 
     private fun deactivate() {
         view.isSelected = false
+    }
+
+    fun getId(): Long {
+        return id
     }
 
     fun getView(): TextView = view

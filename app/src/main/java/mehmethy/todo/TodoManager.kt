@@ -14,5 +14,6 @@ class TodoManager {
 
     companion object {
         var activeRecipeList: List<TodoRecipe>? = null
+        var activeTodoGroupId: Long? = null
     }
 }

@@ -10,7 +10,7 @@ import mehmethy.todo.data.DataBaseHelper
 import mehmethy.todo.data.DataBaseInfo
 import mehmethy.todo.dialogs.TodoGroupEditDialog
 
-class TodoGroup(private val context: Context, private val todoManager: TodoManager, private val id: Long, private var title: String = "", val todoRecipeList: MutableList<TodoRecipe> = mutableListOf()) {
+class TodoGroup(private val context: Context, private val todoManager: TodoManager, private val id: Long, private var title: String = "") {
     private val view: TextView
 
     init {

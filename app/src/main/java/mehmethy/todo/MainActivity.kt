@@ -9,7 +9,6 @@ import android.widget.LinearLayout
 import mehmethy.todo.data.DataBaseHelper
 import mehmethy.todo.data.DataBaseInfo
 import mehmethy.todo.dialogs.TodoGroupEditDialog
-import mehmethy.todo.widget.TodoState
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         loadButton.setOnClickListener {
             if (todoManager.activeTodoGroup != null) {
                 val intent = Intent(this, TodoActivity::class.java)
-                TodoManager.activeRecipeList = todoManager.activeTodoGroup?.todoRecipeList
+                TodoManager.activeTodoGroupId = todoManager.activeTodoGroup?.getId()
                 startActivity(intent)
             }
         }
@@ -63,25 +62,7 @@ class MainActivity : AppCompatActivity() {
             do {
                 val todoGroupId = todoGroupCursor.getLong(0)
                 val todoGroupTitle = todoGroupCursor.getString(1)
-                val todoQueryString = "SELECT * FROM ${DataBaseInfo.TODO_TABLE_NAME} WHERE ${DataBaseInfo.TODO_COLUMN_GROUP_ID_NAME} = $todoGroupId"
-                val todoCursor = db.rawQuery(todoQueryString, null)
-                val todoRecipeList = mutableListOf<TodoRecipe>()
-                if (todoCursor.moveToFirst()) {
-                    do {
-                        val todoTitle = todoCursor.getString(2)
-                        val todoDescription = todoCursor.getString(3)
-                        val state =
-                            when (todoCursor.getInt(4)) {
-                                1 -> TodoState.COMPLETED
-                                2 -> TodoState.NOT_STARTED
-                                else -> TodoState.IN_PROGRESS
-                            }
-                        val todoRecipe = TodoRecipe(todoTitle, todoDescription, state)
-                        todoRecipeList.add(todoRecipe)
-                    } while (todoCursor.moveToNext())
-                    todoCursor.close()
-                }
-                val todoGroup = TodoGroup(this, todoManager, todoGroupId, todoGroupTitle, todoRecipeList)
+                val todoGroup = TodoGroup(this, todoManager, todoGroupId, todoGroupTitle)
                 list?.addView(todoGroup.getView())
             } while (todoGroupCursor.moveToNext())
             todoGroupCursor.close()

@@ -1,5 +1,6 @@
 package mehmethy.todo.widget
 
+import android.content.ContentValues
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.View
@@ -9,17 +10,27 @@ import android.widget.ImageButton
 import android.widget.LinearLayout
 import androidx.appcompat.content.res.AppCompatResources
 import mehmethy.todo.TodoManager
+import mehmethy.todo.data.DataBaseHelper
+import mehmethy.todo.data.DataBaseInfo
 import mehmethy.todo.dialogs.TodoDescriptionDialog
 import mehmethy.todo.dialogs.TodoEditDialog
 
 
-class TodoWidget(private val context: Context, parent: LinearLayout, private val todoManager: TodoManager) {
+class TodoWidget(
+    private val context: Context,
+    parent: LinearLayout,
+    private val todoManager: TodoManager,
+    private val id: Long,
+    private val groupId: Long,
+    private var _title: String,
+    private var description: String = "",
+    _state: TodoState = TodoState.IN_PROGRESS
+) {
     private val bg: LinearLayout
     private val stateButton: ImageButton
     private var todoState = TodoState.IN_PROGRESS
     private val titleButton: Button
     private val descriptionButton: ImageButton
-    var description = ""
 
     init {
         bg = buildContainer()
@@ -30,7 +41,14 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         bg.addView(stateButton)
         bg.addView(descriptionButton)
         bg.addView(titleButton)
+
         parent.addView(bg)
+
+        if (_title.isBlank()) {
+            _title = context.getString(mehmethy.todo.R.string.todo_default_title)
+        }
+        titleButton.text = _title
+        setState(_state)
     }
 
     fun getView(): LinearLayout = bg
@@ -38,12 +56,20 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     fun getTitleText() = titleButton.text.toString()
     private fun getDescriptionText() = description
 
-    fun setTitle(text: String) {
-        titleButton.text = text
-    }
-
-    fun setState(state: TodoState) {
+    private fun setState(state: TodoState) {
+        val dataBaseHelper = DataBaseHelper(context)
+        val db = dataBaseHelper.writableDatabase
+        val cv = ContentValues()
+        val stateLong: Long =
+            when (state) {
+                TodoState.IN_PROGRESS -> 0
+                TodoState.COMPLETED -> 1
+                TodoState.NOT_STARTED -> 2
+            }
+        cv.put(DataBaseInfo.TODO_COLUMN_STATE_NAME, stateLong)
+        db.update(DataBaseInfo.TODO_TABLE_NAME, cv, "${DataBaseInfo.TODO_COLUMN_ID_NAME} = $id", null)
         when (state) {
+
             TodoState.IN_PROGRESS -> {
                 val id = mehmethy.todo.R.drawable.progress_icon
                 val drawable: Drawable? = AppCompatResources.getDrawable(context, id)
@@ -71,6 +97,12 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
         }
         titleButton.text = title
         description = _description
+        val dataBaseHelper = DataBaseHelper(context)
+        val db = dataBaseHelper.writableDatabase
+        val cv = ContentValues()
+        cv.put(DataBaseInfo.TODO_COLUMN_TITLE_NAME, title)
+        cv.put(DataBaseInfo.TODO_COLUMN_DESCRIPTION_NAME, description)
+        db.update(DataBaseInfo.TODO_TABLE_NAME, cv, "${DataBaseInfo.TODO_COLUMN_ID_NAME} = $id", null)
     }
 
     fun activate() {
@@ -102,7 +134,12 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     }
 
     private fun buildContainer(): LinearLayout {
-        val params = LinearLayout.LayoutParams(ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT))
+        val params = LinearLayout.LayoutParams(
+            ViewGroup.MarginLayoutParams(
+                ViewGroup.MarginLayoutParams.MATCH_PARENT,
+                ViewGroup.MarginLayoutParams.WRAP_CONTENT
+            )
+        )
         params.setMargins(16, 4, 16, 4)
         val layout = LinearLayout(context)
         layout.layoutParams = params
@@ -112,7 +149,10 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     }
 
     private fun buildStateButton(): ImageButton {
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
         params.setMargins(0, 0, 8, 0)
         val button = ImageButton(context)
         button.layoutParams = params
@@ -129,7 +169,10 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     }
 
     private fun buildNoteButton(): ImageButton {
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT)
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.MATCH_PARENT
+        )
         params.setMargins(0, 0, 8, 0)
         val button = ImageButton(context)
         button.layoutParams = params
@@ -148,16 +191,27 @@ class TodoWidget(private val context: Context, parent: LinearLayout, private val
     private fun buildTitleButton(): Button {
         val button = Button(context)
         button.text = context.getString(mehmethy.todo.R.string.todo_title_label)
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        val params = LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.MATCH_PARENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        )
         params.weight = 1.0f
         button.layoutParams = params
         button.setBackgroundResource(mehmethy.todo.R.drawable.todo_widget_button)
         button.textAlignment = View.TEXT_ALIGNMENT_CENTER
         button.setOnClickListener { activate() }
         button.setOnLongClickListener {
-            TodoEditDialog(context, ::handleEditConfirm, getTitleText(), getDescriptionText()).show()
+            TodoEditDialog(
+                context,
+                ::handleEditConfirm,
+                getTitleText(),
+                getDescriptionText()
+            ).show()
             true
         }
         return button
     }
+
+    fun getId() = id
+    fun getGroupId() = groupId
 }

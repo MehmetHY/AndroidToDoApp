@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
                 db.delete(DataBaseInfo.TODO_TABLE_NAME, "${DataBaseInfo.TODO_COLUMN_GROUP_ID_NAME} = ${todoManager.activeTodoGroup?.getId()}", null)
                 db.delete(DataBaseInfo.TODO_GROUP_TABLE_NAME, "${DataBaseInfo.TODO_GROUP_COLUMN_ID_NAME} = ${todoManager.activeTodoGroup?.getId()}", null)
                 todoGroupList?.removeView(todoManager.activeTodoGroup?.getView())
+                todoManager.activeTodoGroup = null
             }
         }
 

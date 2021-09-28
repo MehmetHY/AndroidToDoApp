@@ -12,13 +12,21 @@ android {
         minSdk 19
         targetSdk 19
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
+            applicationVariants.all{
+                variant ->
+                    variant.outputs.each{
+                        output->
+                            def newName = "Todo v" + versionName + ".apk"
+                            output.outputFileName  = newName
+                    }
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }

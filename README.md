@@ -2,6 +2,5 @@
 
 A simple todo app for Android 4.4.2 KitKat and above.
 
-
-![Alt text](../screenshots/todo01.jpg?raw=true "Main Menu")
-![Alt text](../screenshots/todo02.jpg?raw=true "Todos")
+<img src="https://raw.githubusercontent.com/MehmetHY/AndroidToDoApp/screenshots/todo01.jpg" width="360">
+<img src="https://raw.githubusercontent.com/MehmetHY/AndroidToDoApp/screenshots/todo02.jpg" width="360">
